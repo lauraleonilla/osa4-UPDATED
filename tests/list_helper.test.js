@@ -49,3 +49,43 @@ describe('Most likes', () => {
     })
   })
 })
+
+describe('Most blogs', () => {
+  const blogs = [
+    {
+      title: 'STORY',
+      author: 'YOU',
+      url: 'www.google.com',
+      likes: 4,
+      id: '5cf7b3ff873a17abef6e791c'
+    },
+    {
+      title: 'TEST',
+      author: 'YOU',
+      url: 'www.google.com',
+      likes: 1,
+      id: '5cf7c55ccfa27fcd6cbad160'
+    },
+    {
+      title: 'STORY 3',
+      author: 'YOU',
+      url: 'www.google.com',
+      likes: 130,
+      id: '5cf7ea3dcb2d7c175de5805d'
+    },
+    {
+      title: 'STORY 4',
+      author: 'ME',
+      url: 'www.google.com',
+      likes: 1,
+      id: '5cf7ea45cb2d7c175de5805e'
+    }
+  ]
+  test('Returns author with most blogs', () => {
+    const res = listHelper.mostBlogs(blogs)
+    expect(res).toEqual({
+      author: 'YOU',
+      blogs: 3
+    })
+  })
+})

@@ -27,8 +27,37 @@ const favoriteblog = blogs => {
   return final
 }
 
+const mostBlogs = blogs => {
+  const authors = blogs.map(e => e.author)
+  let counts = {}
+  let compare = 0
+  let mostFrequent
+  for (let i = 0, len = authors.length; i < len; i++) {
+    let word = authors[i]
+    if (counts[word] === undefined) {
+      counts[word] = 1
+    } else {
+      counts[word] = counts[word] + 1
+    }
+    if (counts[word] > compare) {
+      compare = counts[word]
+      mostFrequent = authors[i]
+    }
+  }
+  let finalObject = {
+    author: '',
+    blogs: 0
+  }
+  authors.map(e => {
+    if (e === mostFrequent) finalObject.blogs++, (finalObject.author = e)
+    return finalObject
+  })
+  return finalObject
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteblog
+  favoriteblog,
+  mostBlogs
 }
