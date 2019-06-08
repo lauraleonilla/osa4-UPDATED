@@ -122,6 +122,8 @@ describe('User validation', () => {
       .post('/api/users')
       .send(newUser)
       .expect(400)
+      .expect({ error: 'Give a password with at least three characters'
+      })
   })
 })
 
