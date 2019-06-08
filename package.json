@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "jest --verbose",
+    "test": "NODE_ENV=test jest --verbose --runInBand",
     "lint": "eslint ."
   },
   "repository": {
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/lauraleonilla/osa4#readme",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
@@ -26,7 +27,10 @@
     "express": "^4.17.1",
     "http": "0.0.0",
     "jest": "^24.8.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.12",
-    "nodemon": "^1.19.1"
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^1.19.1",
+    "supertest": "^4.0.2"
   }
 }
