@@ -18,17 +18,9 @@ blogsRouter.get('/:id', async (req, res, next) => {
   }
 })
 
-const getTokenFrom = req => {
-  const auth = req.get('authorization')
-  if (auth && auth.toLowerCase().startsWith('bearer ')) {
-    return auth.substring(7)
-  }
-  return null
-}
-
 blogsRouter.post('/', async (req, res, next) => {
   const body = req.body
-  const token = getTokenFrom(req)
+  const token = req.token
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET)
     if(!token || !decodedToken.id) {
@@ -55,7 +47,7 @@ blogsRouter.post('/', async (req, res, next) => {
 })
 
 blogsRouter.delete('/:id', async (req, res, next) => {
-  const token = getTokenFrom(req)
+  const token = req.token
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET)
     if(!token || !decodedToken.id) {
