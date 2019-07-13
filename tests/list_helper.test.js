@@ -1,4 +1,4 @@
-const listHelper = require('../utils/list_helper')
+const listHelper = require('../utils/list_helper.js')
 
 test('dummy returns one', () => {
   const blogs = []
@@ -23,7 +23,7 @@ describe('Total likes', () => {
   })
 })
 
-describe('Most likes', () => {
+describe('Blog with most likes', () => {
   const blogs = [
     {
       title: 'STORY',
@@ -89,3 +89,44 @@ describe('Most blogs', () => {
     })
   })
 })
+
+describe('Author with most likes', () => {
+  const blogs = [
+    {
+      title: 'STORY',
+      author: 'YOU',
+      url: 'www.google.com',
+      likes: 4,
+      id: '5cf7b3ff873a17abef6e791c'
+    },
+    {
+      title: 'TEST',
+      author: 'YOU',
+      url: 'www.google.com',
+      likes: 1,
+      id: '5cf7c55ccfa27fcd6cbad160'
+    },
+    {
+      title: 'STORY 3',
+      author: 'YOU',
+      url: 'www.google.com',
+      likes: 130,
+      id: '5cf7ea3dcb2d7c175de5805d'
+    },
+    {
+      title: 'STORY 4',
+      author: 'ME',
+      url: 'www.google.com',
+      likes: 1,
+      id: '5cf7ea45cb2d7c175de5805e'
+    }
+  ]
+  test('Returns author with most likes', () => {
+    const res = listHelper.mostLikes(blogs)
+    expect(res).toEqual({
+      author: 'YOU',
+      likes: 135
+    })
+  })
+})
+

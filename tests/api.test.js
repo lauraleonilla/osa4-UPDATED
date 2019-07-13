@@ -29,6 +29,7 @@ describe('Blog api tests', () => {
 
   test('The field name is id', async () => {
     const res = await api.get('/api/blogs')
+    console.log(res.body)
     expect(res.body[0].id).toBeDefined()
   })
 
