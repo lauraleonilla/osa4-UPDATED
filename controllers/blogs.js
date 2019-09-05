@@ -4,20 +4,22 @@ const Comment = require('../models/comment')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
-blogsRouter.get('/', async (req, res) => {
-  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
-  const comments = await Blog.find({}).populate('comments', { content: 1 })
-  res.json(comments.map(comment => comment.toJSON()))
-  res.json(blogs.map(blog => blog.toJSON()))
+blogsRouter.get('/', async (req, res, next) => {
+  try {
+    const populateQuery = [{ path:'user', username: 1, name: 1 }, { path: 'comments', content: 1 }]
+    const blogs = await Blog.find({}).populate(populateQuery)
+    res.json(blogs.map(blog => blog.toJSON()))
+  } catch (exception) {
+    next(exception)
+  }
 })
 
 blogsRouter.get('/:id', async (req, res, next) => {
   try {
     const blog = await Blog.findById(req.params.id)
-    const comments = await Blog.find({}).populate('comments', { content: 1 })
-    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
-    res.json(comments.map(comment => comment.toJSON()))
-    res.json(comments.map(comment => comment.toJSON()))
+    const populateQuery = [{ path:'user', username: 1, name: 1 }, { path: 'comments', content: 1 }]
+    const blogs = await Blog.find({}).populate(populateQuery)
+    res.json(blogs.map(blog => blog.toJSON()))
     if (blog) res.json(blog.toJSON())
     else res.status(404).end()
   } catch (exception) {
@@ -30,7 +32,7 @@ blogsRouter.post('/', async (req, res, next) => {
   const token = req.token
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET)
-    if(!token || !decodedToken.id) {
+    if (!token || !decodedToken.id) {
       return res.status(401).json({ error: 'Token missing or invalid' })
     }
 
@@ -57,11 +59,11 @@ blogsRouter.delete('/:id', async (req, res, next) => {
   const token = req.token
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET)
-    if(!token || !decodedToken.id) {
+    if (!token || !decodedToken.id) {
       return res.status(401).json({ error: 'Token missing or invalid' })
     }
     const user = await User.findById(decodedToken.id)
-    if(user.blogs.includes(req.params.id)) {
+    if (user.blogs.includes(req.params.id)) {
       await Blog.findByIdAndRemove(req.params.id)
       res.status(204).end()
     } else {
